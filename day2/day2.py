@@ -7,17 +7,21 @@ def get_line():
 out = 0
 for i, round in enumerate(get_line()):
     games = round[round.find(':')+1:].split(';')
+    valid_game = True
 
-    def valid_game(game):
+    for game in games:
         counts = {'red':0, 'green':0, 'blue':0}
         hands = game.split(',')
         for hand in hands:
             draw = hand.strip().split(' ')
             counts[draw[1]] += int(draw[0])
-        return counts['red'] <= 12 and counts['green'] <= 13 and counts['blue'] <= 14
+        if counts['red'] > 12 or counts['green'] > 13 or counts['blue'] > 14:
+            valid_game = False
+            break
 
-    if all(valid_game(game) for game in games):
+    if valid_game:
         out += i + 1
+
 print('Part 1', out)
 
 # Part 2
