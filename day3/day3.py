@@ -49,6 +49,7 @@ for m in range(mm):
 
 print('Part 1', total)
 
+from collections import deque
 
 # Part 2
 total = 0
@@ -74,20 +75,25 @@ for j,i in coords:
         if not y.isnumeric():
             continue
         check_set.discard((k,l))
-        num = y
+        digits = deque()
+        digits.append(int(y))
         r = k+1
         while r < nn and lines[l][r].isnumeric():
-            num += lines[l][r]
+            digits.append(int(lines[l][r]))
             check_set.discard((r,l))
             r += 1
         r = k-1
         while r >= 0 and lines[l][r].isnumeric():
-            num = lines[l][r] + num
+            digits.appendleft(int(lines[l][r]))
             check_set.discard((r,l))
             r -= 1
         
         n_found += 1
-        prod *= int(num)
+        num = 0
+        for digit in digits:
+            num *= 10
+            num += digit
+        prod *= num
 
     if n_found == 2:
         total += prod
