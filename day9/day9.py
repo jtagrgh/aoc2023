@@ -28,3 +28,15 @@ for line in lines:
     total += get_next([int(x) for x in line.strip().split()])
 
 print('Part2', total)
+
+# Part 1 Iteration
+total = 0
+for line in lines:
+    stack = [[int(x) for x in line.strip().split()]]
+    while not all((x == 0 for x in stack[-1])):
+        stack.append([x2-x1 for x1,x2 in pairwise(stack[-1])])
+    diff = 0
+    while len(stack) != 0:
+        diff += stack.pop()[-1]
+    total += diff
+print('Part1 Iteration', total)
