@@ -64,15 +64,10 @@ while len(stack) > 0:
             vari = var_index[var]
             val -= 1
             if val >= part[vari][0]:
-                new_ratings = []
-                new_part_ratings = []
-                for i,rating in enumerate(part):
-                    if i == vari:
-                        new_ratings.append((rating[0], min(val, rating[1])))
-                        new_part_ratings.append((val+1, rating[1]))
-                    else:
-                        new_ratings.append(rating)
-                        new_part_ratings.append(rating)
+                new_ratings = [rating for rating in part]
+                new_part_ratings = [rating for rating in part]
+                new_ratings[vari] = (part[vari][0], min(val, part[vari][1]))
+                new_part_ratings[vari] = (val+1, part[vari][1])
                 stack.append((nwf, tuple(new_ratings)))
                 part = tuple(new_part_ratings)
         elif len(pred_split := pred.split('>')) == 2:
@@ -81,15 +76,10 @@ while len(stack) > 0:
             vari = var_index[var]
             val += 1
             if val <= part[vari][1]:
-                new_ratings = []
-                new_part_ratings = []
-                for i,rating in enumerate(part):
-                    if i == vari:
-                        new_ratings.append((max(val, rating[0]), rating[1]))
-                        new_part_ratings.append((rating[0], val-1))
-                    else:
-                        new_ratings.append(rating)
-                        new_part_ratings.append(rating)
+                new_ratings = [rating for rating in part]
+                new_part_ratings = [rating for rating in part]
+                new_ratings[vari] = (max(val, part[vari][0]), part[vari][1])
+                new_part_ratings[vari] = (part[vari][0], val-1)
                 stack.append((nwf, tuple(new_ratings)))
                 part = tuple(new_part_ratings)
         else:
